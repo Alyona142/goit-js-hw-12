@@ -12,19 +12,20 @@ const searchInput = searchForm.querySelector('input[name="search"]');
 const gallery = document.querySelector('.gallery');
 const loaderContainer = document.querySelector('.loader-container');
 const loadMoreBtn = document.querySelector('.load-more-btn');
-
 const lightbox = new SimpleLightbox('.gallery a');
 
 let currentPage = 1;
 let queryString = '';
 let totalHits = 0;
 
-function showLoader() {
-  loaderContainer.style.display = 'flex';
-}
 
-function hideLoader() {
-  loaderContainer.style.display = 'none';
+function showLoader() {
+  const loaderContainer = document.querySelector('.loader-container');
+  if (loaderContainer) {
+    loaderContainer.style.display = 'flex';
+  } else {
+    console.error("Element '.loader-container' not found.");
+  }
 }
 
 function resetGallery() {
@@ -50,7 +51,6 @@ async function loadImages(query, page) {
 
     if (Array.isArray(images) && images.length > 0) {
       renderGallery(images, gallery);
-      lightbox.refresh(); 
       showHideBtn(totalHits);
     } else {
       iziToast.info({ title: 'Info', message: 'No images found for your search query.' });
@@ -61,7 +61,7 @@ async function loadImages(query, page) {
     iziToast.error({ title: 'Error', message: 'Failed to load images.' });
     resetGallery();
   } finally {
-    hideLoader();
+    showLoader();
   }
 }
 

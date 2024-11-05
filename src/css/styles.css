@@ -37,6 +37,14 @@ ul {
   padding: 0;
 }
 
+.load-more-btn {
+  display: none;
+}
+
+.load-more-btn.visible {
+  display: block;
+} 
+
 .container {
   max-width: 1440px;
   margin: 0 auto;
@@ -79,6 +87,11 @@ input:focus {
   float: none;
   margin: 24px auto;
 }
+
+/* .loader-container{
+  display: none;
+} */
+
 button {
   position: relative;
   float: right;
