@@ -14,34 +14,22 @@ const CONFIG = {
   },
 };
 
-
-export async function getGalleryData(queryValue, page) {
+export async function fetchImages(query, page = 1, perPage = 15) {
   try {
-    fetchLoader();
-    CONFIG.params.q = queryValue;
-    CONFIG.params.page = page;
-    const response = await axios.get(API_URL, CONFIG);
-    return response.images;
+    const response = await axios.get(API_URL, {
+      params: {
+        key: API_KEY,
+        q: query,
+        image_type: 'photo',
+        orientation: 'horizontal',
+        safesearch: true,
+        page: page,
+        per_page: perPage,
+      },
+    });
+    return response.data;
   } catch (error) {
-    if (error.response) {
-      const { data } = error.response;
-   
-      showInfoMessage(
-        `${MESSAGES.exception} ERROR: ${images}`,
-        MESSAGES_BG_COLORS.orange
-      );
-    } else if (error.request) {
- 
-      showInfoMessage(
-        `${MESSAGES.exception} ERROR: ${error.request}`,
-        MESSAGES_BG_COLORS.orange
-      );
-    } else {
-  
-      showInfoMessage(
-        `${MESSAGES.exception} ERROR: ${error.message}`,
-        MESSAGES_BG_COLORS.orange
-      );
-    }
+    throw new Error('Failed to fetch images');
   }
 }
+

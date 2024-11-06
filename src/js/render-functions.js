@@ -6,18 +6,19 @@ const lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
 });
 
-let currentPage = 1;
-
-export function renderGallery(images, gallery) {
-  gallery.innerHTML = createGalleryMarkup(images);
+export function renderGallery(images, gallery, append = false) {
+  const markup = createGalleryMarkup(images);
+  
+  if (append) {
+    gallery.insertAdjacentHTML('beforeend', markup);
+  } else {
+    gallery.innerHTML = markup;
+  }
+  
   lightbox.refresh();
 }
-function createGalleryMarkup(images) {
-  if (!images || !Array.isArray(images)) {
-    console.error("Invalid data format:", images);
-    return '';
-  }
 
+function createGalleryMarkup(images) {
   return images
     .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
       <li class="gallery-item hvr-grow">
@@ -33,16 +34,5 @@ function createGalleryMarkup(images) {
           </figure>
         </a>
       </li>
-    `)
-    .join('');
-}
-
-
-export function toggleLoader(isVisible) {
-  const loaderContainer = document.querySelector('.loader-container');
-  loaderContainer.style.display = isVisible ? 'flex' : 'none';
-}
-
-export function resetPage() {
-  currentPage = 1; 
+    `).join('');
 }

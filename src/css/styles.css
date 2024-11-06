@@ -85,12 +85,18 @@ input:focus {
   border-radius: 4px;
   border: 1px solid #a7a8a8;
   float: none;
+  display: block;
   margin: 24px auto;
 }
 
-/* .loader-container{
-  display: none;
-} */
+.loader-container{
+    display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      font-size: 18px;
+      color: #666;
+}
 
 button {
   position: relative;
